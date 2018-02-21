@@ -1,0 +1,20 @@
+{
+    "name": "InstaWeather",
+    "short_name": "InstaWeather",
+    "start_url": "/",
+    "display": "standalone",
+    "icons": [
+      {
+        "src": "assets/icon/256.png",
+        "sizes": "256x256",
+        "type": "image/png"
+      },
+      {
+        "src": "assets/icon/512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "background_color": "#488aff",
+    "theme_color": "#488aff"
+  }
