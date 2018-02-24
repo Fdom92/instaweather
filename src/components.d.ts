@@ -69,6 +69,7 @@ declare global {
   namespace JSXElements {
     export interface ForecastItemAttributes extends HTMLAttributes {
       day?: any;
+      isFahrenheits?: boolean;
     }
   }
 }

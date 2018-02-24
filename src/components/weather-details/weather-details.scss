@@ -24,6 +24,10 @@ weather-details {
         .main-info_icon-col_degree {
           font-size: 2rem;
           line-height: 6rem;
+
+          p {
+            margin: 0;
+          }
         }
     }
   }
@@ -69,6 +73,23 @@ weather-details {
         &:last-child {
             border-right: none;
         }
+    }
+  }
+
+  .toogle-info {
+    ion-item {
+      .item {
+        background-color: initial;
+
+        .item-inner {
+          border-bottom: none;
+
+          ion-label {
+            color: white;
+            font-size: 16px;
+          }
+        }
+      }
     }
   }
 }

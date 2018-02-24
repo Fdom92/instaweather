@@ -8,6 +8,7 @@ import * as dateFns from 'date-fns';
 export class ForecastItem {
 
   @Prop() day: any;
+  @Prop() isFahrenheits: boolean;
 
   getDay(date) {
     if (dateFns.isToday(date)) {
@@ -38,7 +39,11 @@ export class ForecastItem {
           { this.getDay(this.day.date) }
         </ion-row>
         <ion-row>
-        { this.day.day.mintemp_c }&deg;C / { this.day.day.maxtemp_c }&deg;C
+        {
+          this.isFahrenheits ?
+          <p>{ this.day.day.mintemp_f }&deg;F / { this.day.day.maxtemp_f }&deg;F</p> :
+          <p>{ this.day.day.mintemp_c }&deg;C / { this.day.day.maxtemp_c }&deg;C</p>
+        }
         </ion-row>
       </ion-col>
     );

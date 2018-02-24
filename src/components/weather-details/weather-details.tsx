@@ -1,4 +1,4 @@
-import { Component, Prop } from '@stencil/core';
+import { Component, Prop, State, Listen } from '@stencil/core';
 
 @Component({
   tag: 'weather-details',
@@ -10,6 +10,13 @@ export class WeatherDetails {
   @Prop() location: any;
   @Prop() forecast: any;
 
+  @State() isFahrenheits = false;
+
+  @Listen('ionChange')
+  todoCompletedHandler(event: CustomEvent) {
+    this.isFahrenheits = event.detail.checked;
+  }
+
   render() {
     return [
       <ion-grid class="main-info">
@@ -18,14 +25,20 @@ export class WeatherDetails {
                 <div class="main-info_temperature-col_temperature">
                   {
                     this.current ?
-                    this.current.temp_c :
+                    (this.isFahrenheits ?
+                      this.current.temp_f :
+                      this.current.temp_c) :
                     '?'
                   }
                 </div>
             </ion-col>
             <ion-col class="main-info_icon-col">
                 <div class="main-info_icon-col_degree">
-                  &deg;C
+                  {
+                    this.isFahrenheits ?
+                    <p>&deg;F</p> :
+                    <p>&deg;C</p>
+                  }
                 </div>
             </ion-col>
         </ion-row>
@@ -33,8 +46,8 @@ export class WeatherDetails {
             <ion-col>
               {
                 this.current ?
-                (<p>Condition: {this.current.condition.text}</p>) :
-                (<ion-skeleton-text text-center width="100px"></ion-skeleton-text>)
+                <p>Condition: {this.current.condition.text}</p> :
+                <ion-skeleton-text text-center width="100px"></ion-skeleton-text>
               }
             </ion-col>
         </ion-row>
@@ -42,8 +55,10 @@ export class WeatherDetails {
             <ion-col>
               {
                 this.current ?
-                (<p>Real Feel: {this.current.feelslike_c} &deg;C</p>) :
-                (<ion-skeleton-text text-center width="100px"></ion-skeleton-text>)
+                (this.isFahrenheits ?
+                (<p>Real Feel: {this.current.feelslike_f} &deg;F</p>) :
+                (<p>Real Feel: {this.current.feelslike_c} &deg;C</p>)) :
+                <ion-skeleton-text text-center width="100px"></ion-skeleton-text>
               }
             </ion-col>
         </ion-row>
@@ -61,8 +76,8 @@ export class WeatherDetails {
               <ion-row>
                 {
                   this.current ?
-                  (this.current.humidity + '%' ) :
-                  (<ion-skeleton-text text-center width="100px"></ion-skeleton-text>)
+                  this.current.humidity + '%' :
+                  <ion-skeleton-text text-center width="100px"></ion-skeleton-text>
                 }
               </ion-row>
             </ion-col>
@@ -77,8 +92,8 @@ export class WeatherDetails {
               <ion-row>
                 {
                   this.current ?
-                  (this.current.wind_mph + 'm/h' ) :
-                  (<ion-skeleton-text text-center width="100px"></ion-skeleton-text>)
+                  this.current.wind_mph + 'm/h' :
+                  <ion-skeleton-text text-center width="100px"></ion-skeleton-text>
                 }
               </ion-row>
             </ion-col>
@@ -93,8 +108,8 @@ export class WeatherDetails {
               <ion-row>
                 {
                   this.current ?
-                  (this.current.cloud + '%' ) :
-                  (<ion-skeleton-text text-center width="100px"></ion-skeleton-text>)
+                  this.current.cloud + '%' :
+                  <ion-skeleton-text text-center width="100px"></ion-skeleton-text>
                 }
               </ion-row>
             </ion-col>
@@ -105,12 +120,26 @@ export class WeatherDetails {
           {
             this.forecast ? this.forecast.forecastday.map(day => {
               return (
-                  <forecast-item day={day}></forecast-item>
+                  <forecast-item isFahrenheits={this.isFahrenheits} day={day}></forecast-item>
               )
             }) :
             <ion-skeleton-text text-center width="100px"></ion-skeleton-text>
           }
         </ion-row>
+    </ion-grid>,
+    <ion-grid class="toogle-info">
+      <ion-row>
+        <ion-col>
+          {
+            this.forecast ?
+            (<ion-item>
+              <ion-label>Want Fahrenheits?</ion-label>
+              <ion-toggle value="isFahrenheits"></ion-toggle>
+            </ion-item>) :
+            ''
+          }
+        </ion-col>
+      </ion-row>
     </ion-grid>
     ];
   }
